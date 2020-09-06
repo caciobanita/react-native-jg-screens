@@ -1,6 +1,40 @@
 
-import { NativeModules } from 'react-native';
+// import { NativeModules } from 'react-native';
 
-const { RNJgScreens } = NativeModules;
+// const { RNJgScreens } = NativeModules;
 
-export default RNJgScreens;
+// export default RNJgScreens;
+
+
+import React from 'react';
+import { Animated, View } from 'react-native';
+
+let ENABLE_SCREENS = true;
+
+export function enableScreens(shouldEnableScreens = true) {
+  ENABLE_SCREENS = shouldEnableScreens;
+}
+
+export function screensEnabled() {
+  return ENABLE_SCREENS;
+}
+
+export class NativeScreen extends React.Component {
+  render() {
+    const { active, style, ...rest } = this.props;
+
+    return (
+      <View
+        style={[style, ENABLE_SCREENS && !active ? { display: 'none' } : null]}
+        {...rest}
+      />
+    );
+  }
+}
+
+export const Screen = Animated.createAnimatedComponent(NativeScreen);
+
+export const ScreenContainer = View;
+
+export const NativeScreenContainer = View;
+
